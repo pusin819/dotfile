@@ -2,10 +2,10 @@ require("settings")
 require("plugins")
 require("maps")
 
-local themeStatus, kanagawa = pcall(require, "kanagawa")
+require("monokai-pro").setup({
+	transparent_background = true,
+	terminal_colors = true,
+	filter = "ristretto",
+})
 
-if themeStatus then
-	vim.cmd("colorscheme kanagawa")
-else
-	return
-end
+vim.cmd([[colorscheme monokai-pro]])

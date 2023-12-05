@@ -7,7 +7,7 @@ local lspkind = require("lspkind")
 vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = "#7FBBB3", bg = "NONE" })
 vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = "#7FBBB3", bg = "NONE" })
 local icons = {
-	Class = " ",
+	Class = "",
 	Color = "",
 	Constant = "",
 	Constructor = " ",

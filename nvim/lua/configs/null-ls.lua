@@ -17,7 +17,7 @@ nls.setup({
 		fmt.prettierd,
 		fmt.eslint_d,
 		fmt.prettier.with({
-			filetypes = { "html", "json", "yaml", "markdown", "javascript", "typescript" },
+			filetypes = { "html", "json", "yaml", "markdown", "javascript", "typescript", "tex" },
 		}),
 		fmt.stylua,
 		fmt.rustfmt,

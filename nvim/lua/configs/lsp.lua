@@ -5,7 +5,7 @@ end
 
 local protocol = require("vim.lsp.protocol")
 
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = " ", Warn = " ", Hint = "󰌆", Info = "󰋼" }
 for type, icon in pairs(signs) do
 	local hl = "DiagnosticSign" .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -32,6 +32,7 @@ nvim_lsp.clangd.setup({
 		"clangd",
 		"--enable-config",
 		"--query-driver=/usr/bin/*g++*",
+		"--query-driver=/usr/bin/arm-none-eabi-g++",
 		-- "--compile-commands-dir=./debug",
 	},
 	filetypes = { "c", "cpp", "h", "hpp", "objc", "objcpp" },
@@ -94,6 +95,12 @@ nvim_lsp.pyright.setup({
 
 -- Rust
 nvim_lsp.rust_analyzer.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
+-- LaTex
+nvim_lsp.texlab.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })

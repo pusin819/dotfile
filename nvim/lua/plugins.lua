@@ -15,9 +15,6 @@ return require("packer").startup(function(use)
 	-- Icons
 	use("nvim-tree/nvim-web-devicons")
 
-	-- Colorschema
-	use("rebelot/kanagawa.nvim")
-
 	-- Statusline
 	use({
 		"nvim-lualine/lualine.nvim",
@@ -177,7 +174,17 @@ return require("packer").startup(function(use)
 	use("rust-lang/rust.vim")
 
 	-- These optional plugins should be loaded directly because of a bug in Packer lazy loading
-	use("nvim-tree/nvim-web-devicons") -- OPTIONAL: for file icons
-	use("lewis6991/gitsigns.nvim") -- OPTIONAL: for git status
 	use("romgrk/barbar.nvim")
+
+	-- use({
+	--	"catppuccin/nvim",
+	--	as = "catppuccin",
+	-- })
+
+	use({
+		"loctvl842/monokai-pro.nvim",
+		config = function()
+			require("monokai-pro").setup()
+		end,
+	})
 end)
