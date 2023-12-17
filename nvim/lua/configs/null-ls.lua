@@ -10,6 +10,17 @@ local fmt = nls.builtins.formatting
 local dgn = nls.builtins.diagnostics
 local cda = nls.builtins.code_actions
 
+nls.builtins.diagnostics.cspell.with({
+  diagnostics_postprocess = function(diagnostic)
+    -- レベルをWARNに変更（デフォルトはERROR）
+    diagnostic.severity = vim.diagnostic.severity["WARN"]
+  end,
+  condition = function()
+    -- cspellが実行できるときのみ有効
+    return vim.fn.executable('cspell') > 0
+  end
+})
+
 nls.setup({
 	sources = {
 
@@ -32,7 +43,9 @@ nls.setup({
 		-- Code Actions
 		cda.eslint_d,
 		cda.shellcheck,
-	},
+  },
+
+
 	on_attach = function(client, bufnr)
 		if client.supports_method("textDocument/formatting") then
 			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })

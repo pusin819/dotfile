@@ -41,7 +41,7 @@ return require("packer").startup(function(use)
 	-- Telescope
 	use({
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.1",
+		tag = "0.1.4",
 		requires = { { "nvim-lua/plenary.nvim" } },
 	})
 
@@ -185,6 +185,28 @@ return require("packer").startup(function(use)
 		"loctvl842/monokai-pro.nvim",
 		config = function()
 			require("monokai-pro").setup()
+		end,
+	})
+
+	use("lervag/vimtex")
+	use("andweeb/presence.nvim")
+
+	-- GitHub Copilot
+	use({
+		"github/copilot.vim",
+		config = function()
+			vim.g.copilot_no_tab_map = true
+
+			local keymap = vim.keymap.set
+			-- https://github.com/orgs/community/discussions/29817#discussioncomment-4217615
+			keymap(
+				"i",
+				"<M-u>",
+				'copilot#Accept("<CR>")',
+				{ silent = true, expr = true, script = true, replace_keycodes = false }
+			)
+			keymap("i", "<M-.>", "<Plug>(copilot-next)")
+			keymap("i", "<M-,>", "<Plug>(copilot-previous)")
 		end,
 	})
 end)
