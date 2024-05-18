@@ -1,199 +1,151 @@
--- Automatically run: PackerCompile
-vim.api.nvim_create_autocmd("BufWritePost", {
-	group = vim.api.nvim_create_augroup("PACKER", { clear = true }),
-	pattern = "plugins.lua",
-	command = "source <afile> | PackerCompile",
-})
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
 
-return require("packer").startup(function(use)
-	-- Packer
-	use("wbthomason/packer.nvim")
-
-	-- Common utilities
-	use("nvim-lua/plenary.nvim")
-
-	-- Icons
-	use("nvim-tree/nvim-web-devicons")
-
-	-- Statusline
-	use({
+local plugins = {
+	"nvim-lua/plenary.nvim",
+	"nvim-tree/nvim-web-devicons",
+	{
 		"nvim-lualine/lualine.nvim",
 		event = "BufEnter",
 		config = function()
 			require("configs.lualine")
 		end,
-		requires = { "nvim-web-devicons" },
-	})
-
-	-- Treesitter
-	use({
+		dependencies = { "nvim-web-devicons" },
+	},
+	{
 		"nvim-treesitter/nvim-treesitter",
-		run = function()
+		build = function()
 			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
 		config = function()
 			require("configs.treesitter")
 		end,
-	})
-
-	use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
-
-	-- Telescope
-	use({
+	},
+	{ "windwp/nvim-ts-autotag" },
+	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.4",
-		requires = { { "nvim-lua/plenary.nvim" } },
-	})
-
-	-- LSP
-	use({
+		version = "0.1.4",
+		dependencies = { { "nvim-lua/plenary.nvim" } },
+	},
+	{
 		"neovim/nvim-lspconfig",
 		config = function()
 			require("configs.lsp")
 		end,
-	})
-	use("onsails/lspkind-nvim")
-	use({
-		"L3MON4D3/LuaSnip",
+	},
+	"onsails/lspkind-nvim",
+	{
+		"l3mon4d3/luasnip",
 		-- follow latest release.
-		tag = "v<CurrentMajor>.*",
-	})
-
-	-- cmp: Autocomplete
-	use({
+		version = "v<currentmajor>.*",
+	},
+	{
 		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
+		event = "insertenter",
 		config = function()
 			require("configs.cmp")
 		end,
-	})
-
-	use("hrsh7th/cmp-nvim-lsp")
-
-	use({ "hrsh7th/cmp-path", after = "nvim-cmp" })
-
-	use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" })
-
-	-- LSP diagnostics, code actions, and more via Lua.
-	use({
+	},
+	"hrsh7th/cmp-nvim-lsp",
+	{ "hrsh7th/cmp-path" },
+	{ "hrsh7th/cmp-buffer" },
+	{
 		"jose-elias-alvarez/null-ls.nvim",
 		config = function()
 			require("configs.null-ls")
 		end,
-		requires = { "nvim-lua/plenary.nvim" },
-	})
-
-	-- Mason: Portable package manager
-	use({
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	{
 		"williamboman/mason.nvim",
 		config = function()
 			require("mason").setup()
 		end,
-	})
-
-	use({
+	},
+	{
 		"williamboman/mason-lspconfig.nvim",
 		config = function()
 			require("configs.mason-lsp")
 		end,
-		after = "mason.nvim",
-	})
-
-	-- File manager
-	use({
+	},
+	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v2.x",
-		requires = {
+		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons",
-			"MunifTanjim/nui.nvim",
+			"muniftanjim/nui.nvim",
 		},
-	})
-
-	-- Show colors
-	use({
+	},
+	{
 		"norcalli/nvim-colorizer.lua",
 		config = function()
 			require("colorizer").setup({ "*" })
 		end,
-	})
-
-	-- Terminal
-	use({
+	},
+	{
 		"akinsho/toggleterm.nvim",
-		tag = "*",
+		version = "*",
 		config = function()
 			require("configs.toggleterm")
 		end,
-	})
-
-	-- Git
-	use({
+	},
+	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
 			require("configs.gitsigns")
 		end,
-	})
-
-	-- Markdown Preview
-	use({
+	},
+	{
 		"iamcco/markdown-preview.nvim",
-		run = function()
+		build = function()
 			vim.fn["mkdp#util#install"]()
 		end,
-	})
-
-	-- autopairs
-	use({
+	},
+	{
 		"windwp/nvim-autopairs",
 		config = function()
 			require("configs.autopairs")
 		end,
-	})
-
-	-- Background Transparent
-	use({
+	},
+	{
 		"xiyaowong/nvim-transparent",
 		config = function()
 			require("configs.transparent")
 		end,
-	})
-
-	-- Doxygen
-	use({
+	},
+	{
 		"danymat/neogen",
 		config = function()
 			require("neogen").setup({})
 		end,
-		requires = "nvim-treesitter/nvim-treesitter",
-		-- Uncomment next line if you want to follow only stable versions
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		-- uncomment next line if you want to follow only stable versions
 		-- tag = "*"
-	})
-
-	-- rust
-	use("rust-lang/rust.vim")
-
-	-- These optional plugins should be loaded directly because of a bug in Packer lazy loading
-	use("romgrk/barbar.nvim")
-
-	-- use({
-	--	"catppuccin/nvim",
-	--	as = "catppuccin",
-	-- })
-
-	use({
+	},
+	"rust-lang/rust.vim",
+	"romgrk/barbar.nvim",
+	{
 		"loctvl842/monokai-pro.nvim",
 		config = function()
 			require("monokai-pro").setup()
 		end,
-	})
-
-	use("lervag/vimtex")
-	use("andweeb/presence.nvim")
-
-	-- GitHub Copilot
-	use({
+	},
+	"lervag/vimtex",
+	"andweeb/presence.nvim",
+	{
 		"github/copilot.vim",
+		lazy = false,
 		config = function()
 			vim.g.copilot_no_tab_map = true
 
@@ -201,12 +153,44 @@ return require("packer").startup(function(use)
 			-- https://github.com/orgs/community/discussions/29817#discussioncomment-4217615
 			keymap(
 				"i",
-				"<M-u>",
+				"<m-u>",
 				'copilot#Accept("<CR>")',
 				{ silent = true, expr = true, script = true, replace_keycodes = false }
 			)
-			keymap("i", "<M-.>", "<Plug>(copilot-next)")
-			keymap("i", "<M-,>", "<Plug>(copilot-previous)")
+			keymap("i", "<m-.>", "<plug>(copilot-next)")
+			keymap("i", "<m-,>", "<plug>(copilot-previous)")
 		end,
-	})
-end)
+	},
+	{
+		"alexvzyl/nordic.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("configs.nordic")
+		end,
+	},
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("configs.tokyonight")
+		end,
+		opts = {},
+	},
+  {
+    "kaarmu/typst.vim",
+    ft = 'typst',
+    lazy=false,
+  },
+	{
+		"chomosuke/typst-preview.nvim",
+		lazy = false, -- or ft = 'typst'
+		version = "0.3.*",
+		build = function()
+			require("typst-preview").update()
+		end,
+	},
+}
+
+require("lazy").setup(plugins, opts)

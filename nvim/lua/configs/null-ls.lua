@@ -11,14 +11,14 @@ local dgn = nls.builtins.diagnostics
 local cda = nls.builtins.code_actions
 
 nls.builtins.diagnostics.cspell.with({
-  diagnostics_postprocess = function(diagnostic)
-    -- レベルをWARNに変更（デフォルトはERROR）
-    diagnostic.severity = vim.diagnostic.severity["WARN"]
-  end,
-  condition = function()
-    -- cspellが実行できるときのみ有効
-    return vim.fn.executable('cspell') > 0
-  end
+	diagnostics_postprocess = function(diagnostic)
+		-- レベルをWARNに変更（デフォルトはERROR）
+		diagnostic.severity = vim.diagnostic.severity["WARN"]
+	end,
+	condition = function()
+		-- cspellが実行できるときのみ有効
+		return vim.fn.executable("cspell") > 0
+	end,
 })
 
 nls.setup({
@@ -27,6 +27,8 @@ nls.setup({
 		-- Formatting
 		fmt.prettierd,
 		fmt.eslint_d,
+		fmt.clang_format,
+		fmt.typstfmt,
 		fmt.prettier.with({
 			filetypes = { "html", "json", "yaml", "markdown", "javascript", "typescript", "tex" },
 		}),
@@ -43,8 +45,7 @@ nls.setup({
 		-- Code Actions
 		cda.eslint_d,
 		cda.shellcheck,
-  },
-
+	},
 
 	on_attach = function(client, bufnr)
 		if client.supports_method("textDocument/formatting") then
