@@ -62,7 +62,7 @@ map("n", "<C-Down>", "<C-w>-")
 local opts = { noremap = true, silent = true }
 map("n", "<Leader>nf", "<CMD>lua require('neogen').generate()<CR>", opts)
 
--- Move to previous/next
+-- Move to previous/nexg
 map("n", "<A-h>", "<Cmd>BufferPrevious<CR>", opts)
 map("n", "<A-l>", "<Cmd>BufferNext<CR>", opts)
 -- Re-order to previous/next
@@ -98,6 +98,21 @@ map("n", "<Space>bb", "<Cmd>BufferOrderByBufferNumber<CR>", opts)
 map("n", "<Space>bd", "<Cmd>BufferOrderByDirectory<CR>", opts)
 map("n", "<Space>bl", "<Cmd>BufferOrderByLanguage<CR>", opts)
 map("n", "<Space>bw", "<Cmd>BufferOrderByWindowNumber<CR>", opts)
+
+-- LSP
+map("n", "<leader>ge", "<CMD>lua vim.diagnostic.open_float()<CR>" ,{buffer = true})
+map("n", "gd", "<CMD>lua vim.lsp.buf.definition()<CR>")
+map("n", "gD", "<CMD>lua vim.lsp.buf.declaration()<CR>")
+map("n", "gr", "<CMD>lua vim.lsp.buf.references()<CR>")
+map("n", "gi", "<CMD>lua vim.lsp.buf.implementation()<CR>", { buffer = true })
+map("n", "K", "<CMD>lua vim.lsp.buf.hover()<CR>")
+map("n", "<C-k>", "<CMD>lua vim.lsp.buf.signature_help()<CR>")
+map("n", "<leader>rn", "<CMD>lua vim.lsp.buf.rename()<CR>")
+map("n", "g.", "<CMD>lua vim.lsp.buf.code_action()<CR>")
+map("n", "<leader>cf", "<CMD>lua vim.lsp.buf.formatting()<CR>")
+map("n", "<leader>cs", "<CMD>lua vim.lsp.buf.document_symbol()<CR>")
+map('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
+map('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
 
 -- Other:
 -- :BarbarEnable - enables barbar (enabled by default)

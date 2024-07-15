@@ -59,6 +59,7 @@ local plugins = {
 	"hrsh7th/cmp-nvim-lsp",
 	{ "hrsh7th/cmp-path" },
 	{ "hrsh7th/cmp-buffer" },
+	{ "hrsh7th/cmp-cmdline" },
 	{
 		"jose-elias-alvarez/null-ls.nvim",
 		config = function()
@@ -133,7 +134,13 @@ local plugins = {
 		-- uncomment next line if you want to follow only stable versions
 		-- tag = "*"
 	},
-	"rust-lang/rust.vim",
+  {
+    'rust-lang/rust.vim',
+    config = function ()
+      -- 保存時にフォーマッターを実行する
+      vim.g.rustfmt_autosave = 1
+    end,
+  },
 	"romgrk/barbar.nvim",
 	{
 		"loctvl842/monokai-pro.nvim",
@@ -153,7 +160,7 @@ local plugins = {
 			-- https://github.com/orgs/community/discussions/29817#discussioncomment-4217615
 			keymap(
 				"i",
-				"<m-u>",
+				"<TAB>",
 				'copilot#Accept("<CR>")',
 				{ silent = true, expr = true, script = true, replace_keycodes = false }
 			)
@@ -191,6 +198,30 @@ local plugins = {
 			require("typst-preview").update()
 		end,
 	},
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+        require("nvim-surround").setup({
+            -- Configuration here, or leave empty to use defaults
+        })
+    end
+  },
+  {
+	"ErickKramer/nvim-ros2",
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		"nvim-telescope/telescope.nvim",
+		"nvim-treesitter/nvim-treesitter",
+	},
+    opts = {
+        -- Add any custom options here
+			autocmds = true,
+			telescope = true,
+			treesitter = true,
+    }
+  },
 }
 
 require("lazy").setup(plugins, opts)

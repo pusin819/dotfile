@@ -91,6 +91,34 @@ nvim_lsp.eslint.setup({
 nvim_lsp.pyright.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        diagnosticMode = "workspace",
+        useLibraryCodeForTypes = true,
+        extraPaths = {
+        "/home/haru/robocon_ws/install/ros2_aruco_interfaces/local/lib/python3.10/dist-packages",
+        "/home/haru/robocon_ws/build/ros2_aruco",
+        "/home/haru/robocon_ws/install/ros2_aruco/lib/python3.10/site-packages",
+        "/home/haru/robocon_ws/install/realsense2_camera_msgs/local/lib/python3.10/dist-packages",
+        "/home/haru/robocon_ws/build/py_usb2can_node",
+        "/home/haru/robocon_ws/install/py_usb2can_node/lib/python3.10/site-packages",
+        "/home/haru/robocon_ws/build/py_dcmdd_node",
+        "/home/haru/robocon_ws/install/py_dcmdd_node/lib/python3.10/site-packages",
+        "/home/haru/robocon_ws/build/py_usb2can_param",
+        "/home/haru/robocon_ws/install/py_usb2can_param/lib/python3.10/site-packages",
+        "/home/haru/robocon_ws/build/py_dcmdd_param",
+        "/home/haru/robocon_ws/install/py_dcmdd_param/lib/python3.10/site-packages",
+        "/home/haru/robocon_ws/install/dcmdd_msg/local/lib/python3.10/dist-packages",
+        "/home/haru/robocon_ws/install/communication_msgs/local/lib/python3.10/dist-packages",
+        "/home/haru/robocon_ws/install/apriltag_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+        },
+      },
+    },
+  },
 })
 
 -- Rust
@@ -111,3 +139,4 @@ nvim_lsp.typst_lsp.setup({
 		-- serverPath = "" -- Normally, there is no need to uncomment it.
 	},
 })
+

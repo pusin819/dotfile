@@ -123,11 +123,9 @@ cmp.setup.cmdline(":", {
 	}, {
 		{
 			name = "cmdline",
-			option = {
-				ignore_cmds = { "Man", "!" },
-			},
 		},
 	}),
+    matching = { disallow_symbol_nonprefix_matching = false }
 })
 
 vim.cmd([[
